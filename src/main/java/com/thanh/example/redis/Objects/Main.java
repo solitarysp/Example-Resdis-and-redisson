@@ -7,6 +7,7 @@ import org.redisson.api.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -20,7 +21,8 @@ public class Main {
 
         //With object
         RBucket<Test> bucket = redisson.getBucket("ObjectBucketExample");
-        bucket.set(new Test(122));
+        bucket.set(new Test(122), 50, TimeUnit.SECONDS);
+
         bucket = redisson.getBucket("ObjectBucketExample");
         Test ledger = bucket.get();
         System.out.println(ledger.getUserid());

@@ -1,6 +1,7 @@
 package com.thanh.example.redis.service.liveObject;
 
 import com.thanh.example.redis.ConnectRedis;
+import com.thanh.example.redis.REntity.Boss;
 import com.thanh.example.redis.REntity.Student;
 import com.thanh.example.redis.util.Test;
 import org.redisson.api.RLiveObjectService;
@@ -11,7 +12,7 @@ import java.io.IOException;
 public class JVMTestReg {
     public static void main(String[] args) throws IOException, InterruptedException {
        // testNoreg();
-        testreg();
+        testReg();
     }
 
     static void testNoreg() throws IOException {
@@ -26,19 +27,22 @@ public class JVMTestReg {
         Test.endTime();
     }
 
-    static void testreg() throws IOException {
+    static void testReg() throws IOException {
         RedissonClient redisson = ConnectRedis.connect();
         Student myObjectJVM2;
 
         RLiveObjectService service = redisson.getLiveObjectService();
         Test.startTime();
-
         service.registerClass(Student.class);
-        Test.endTime("Tổng thời gian reg mất");
-
+        Test.endTime("Tổng thời gian reg Student mất");
         Test.startTime();
         // nếu không reg trc thì sẽ rất lâu, tầm 440ms, còn nếu reg trc chỉ mất tầm 12
         myObjectJVM2 = service.get(Student.class, "1111");
         Test.endTime();
+
+        Test.startTime();
+        service.registerClass(Boss.class);
+        Test.endTime("Tổng thời gian reg Boss mất");
+
     }
 }

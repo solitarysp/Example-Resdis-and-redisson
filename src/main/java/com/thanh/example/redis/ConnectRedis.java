@@ -8,13 +8,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 
 public class ConnectRedis {
-    public static RedissonClient connect() throws IOException {
+    static RedissonClient redissonClient = null;
 
+    public static RedissonClient connect() {
 
-        return Redisson.create(createConfig());
+        try {
+            return Objects.isNull(redissonClient) ? Redisson.create(createConfig()) : redissonClient;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return redissonClient;
     }
 
     public static Config createConfig() throws IOException {

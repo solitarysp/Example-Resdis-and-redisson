@@ -3,6 +3,7 @@ package com.thanh.example.redis.Objects;
 import com.thanh.example.redis.ConnectRedis;
 import com.thanh.example.redis.entity.Test;
 import org.redisson.api.*;
+import org.redisson.api.listener.MessageListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,24 +39,20 @@ public class Main {
         RAtomicLong atomicLong = redisson.getAtomicLong("myAtomicLongExample");
         atomicLong.set(5);
         atomicLong.incrementAndGet();
-
         // Topic
 
-        RTopic<String> subscribeTopic = redisson.getTopic("TopicObjectExample");
-        subscribeTopic.addListener(
-                (channel, customMessage)
-                        -> {
-                    System.out.println("Nơi 1 nhận tin nhắn" + customMessage);
-                });
+        RTopic subscribeTopic = redisson.getTopic("TopicObjectExample");
 
-        RTopic<String> subscribeTopic2 = redisson.getTopic("TopicObjectExample");
-        subscribeTopic2.addListener(
-                (channel, customMessage)
-                        -> {
-                    System.out.println("Nơi 2 nhận tin nhắn" + customMessage);
-                });
+        subscribeTopic.addListener(Object.class, new MessageListener() {
+            @Override
+            public void onMessage(CharSequence channel, Object msg) {
+                System.out.println("channel " + channel.toString());
+                System.out.println("Nơi 1 nhận tin nhắn" + msg);
+            }
+        });
 
-        RTopic<String> publishTopic = redisson.getTopic("TopicObjectExample");
+
+        RTopic publishTopic = redisson.getTopic("TopicObjectExample");
         publishTopic.publishAsync("Thông báo").handle((aLong, throwable) -> {
             System.out.println("gửi thành công");
             return true;

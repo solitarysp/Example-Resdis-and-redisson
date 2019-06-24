@@ -3,8 +3,10 @@ package com.thanh.example.redis.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
 @Document(collection = "test")
-public class Test {
+public class Test implements Serializable {
     private Integer userid;
     private String name;
 

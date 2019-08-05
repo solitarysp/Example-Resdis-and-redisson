@@ -39,7 +39,7 @@ public class ConnectRedis {
 
         // redis
         Config redissonConfig = new Config();
-        redissonConfig.setThreads(5).useSingleServer()
+        redissonConfig.setThreads(7).useSingleServer()
                 .setConnectTimeout(redisConnectionTimeout)
                 .setTimeout(redisTimeout).setDatabase(8)
                 .setIdleConnectionTimeout(redisIdleConnectionTimeout)

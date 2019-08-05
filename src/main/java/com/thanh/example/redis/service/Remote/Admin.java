@@ -12,8 +12,7 @@ public class Admin {
 
         //Remote client
         RRemoteService remoteServiceClient = redisson.getRemoteService();
-        LedgerService ledgerService
-                = remoteServiceClient.get(LedgerService.class);
+        LedgerService ledgerService = remoteServiceClient.get(LedgerService.class);
         ledgerService.runService("test 2");
     }
 }

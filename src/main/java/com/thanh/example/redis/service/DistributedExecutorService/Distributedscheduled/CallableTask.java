@@ -4,9 +4,10 @@ import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.annotation.RInject;
 
+import java.io.Serializable;
 import java.util.concurrent.Callable;
 
-public class CallableTask implements Callable<Long> {
+public class CallableTask implements Callable, Serializable {
     @RInject
     private RedissonClient redissonClient;
 
